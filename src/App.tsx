@@ -160,25 +160,25 @@ function App() {
             </div>
             <div className="relative mt-2 h-170 w-full lg:col-span-7 md:mt-0 md:h-150 md:max-lg:h-170">
               <div className="absolute left-1/2 top-1/2 z-20 aspect-3/4 w-60 -translate-x-1/2 -translate-y-1/2 rotate-2 overflow-hidden rounded-lg bg-surface shadow-2xl transition-transform duration-500 ease-out hover:rotate-0 md:w-72 md:max-lg:w-52">
-                <img
-                  src="../images/weddingPhoto.jpg"
-                  alt="Bride and Groom at a wedding"
-                  className="block h-full w-full object-cover"
-                />
+<img
+  src={`${import.meta.env.BASE_URL}images/weddingPhoto.jpg`}
+  alt="Bride and Groom at a wedding"
+  className="block h-full w-full object-cover"
+/>
               </div>
               <div className="absolute left-0 top-0 z-10 aspect-3/4 w-40 -rotate-6 overflow-hidden rounded-lg bg-surface opacity-90 shadow-xl transition-transform duration-500 ease-out hover:rotate-0 md:-left-8 md:top-20 md:w-56 md:max-lg:left-0 md:max-lg:top-16 md:max-lg:w-36">
-                <img
-                  src="../images/holidayPhoto.jpg"
-                  alt="Bride and Groom on holiday"
-                  className="block h-full w-full object-cover"
-                />
+<img
+  src={`${import.meta.env.BASE_URL}images/holidayPhoto.jpg`}
+  alt="Bride and Groom on holiday"
+  className="block h-full w-full object-cover"
+/>
               </div>
               <div className="absolute right-0 bottom-4 z-30 aspect-3/4 w-40 -rotate-3 overflow-hidden rounded-lg bg-surface opacity-95 shadow-lg transition-transform duration-500 ease-out hover:rotate-0 md:-right-8 md:bottom-20 md:w-56 md:max-lg:right-0 md:max-lg:bottom-12 md:max-lg:w-36">
-                <img
-                  src="../images/autumnPhoto.jpg"
-                  alt="Bride and Groom on a autumn photoshoot"
-                  className="block h-full w-full object-cover"
-                />
+<img
+  src={`${import.meta.env.BASE_URL}images/autumnPhoto.jpg`}
+  alt="Bride and Groom on an autumn photoshoot"
+  className="block h-full w-full object-cover"
+/>
               </div>
             </div>
             {/* <div className="relative flex items-center justify-center lg:col-span-7">
@@ -377,7 +377,7 @@ function App() {
                   <img
                     alt="Venue scenery in the Hudson Valley"
                     className="h-full w-full object-cover object-center saturate-90"
-                    src='../images/venue.jpg'
+                    src={`${import.meta.env.BASE_URL}images/venue.jpg`}
                   />
                 </div>
                 <div className="absolute -bottom-5 right-4 rotate-2 rounded-sm border border-[#e2d5c2] bg-linen-50 px-5 py-3 shadow-md sm:right-8">
