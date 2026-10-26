@@ -72,9 +72,7 @@ function SectionHeading({
       >
         {title}
       </h2>
-      {subtitle && (
-        <p className="mt-2 text-sm font-light text-walnut/60">{subtitle}</p>
-      )}
+      {subtitle && <p className="mt-2 text-sm font-light text-walnut/60">{subtitle}</p>}
     </div>
   );
 }
@@ -91,16 +89,10 @@ function App() {
     <div className="min-h-screen overflow-hidden font-sans text-walnut-dark antialiased selection:bg-olive selection:text-linen-50">
       <header className="sticky top-0 z-50 border-b border-[#ebdcc8]/70 bg-[#fbf8f2]/90 backdrop-blur-md">
         <div className="relative mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-          <a
-            className="group flex items-center"
-            href="#top"
-            aria-label="Kian and Izzy home"
-          >
+          <a className="group flex items-center" href="#top" aria-label="Kian and Izzy home">
             <span className="font-serif text-xl font-medium uppercase tracking-[0.18em] text-walnut transition-colors group-hover:text-olive sm:text-2xl">
               Kian{" "}
-              <span className="font-script text-3xl lowercase tracking-normal text-olive">
-                &
-              </span>{" "}
+              <span className="font-script text-3xl lowercase tracking-normal text-olive">&</span>{" "}
               Izzy
             </span>
           </a>
@@ -130,7 +122,7 @@ function App() {
             <div className="z-10 space-y-6 text-center lg:col-span-5 lg:text-left">
               <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.28em] text-olive">
                 <span className="h-px w-8 bg-olive" />
-                The Wedding Celebration of, 
+                The Wedding Celebration of,
               </div>
               <h1 className="font-serif text-5xl font-normal leading-[1.08] text-walnut-dark sm:text-6xl xl:text-7xl">
                 Kian <span className="block font-light italic">& Izzy</span>
@@ -139,9 +131,8 @@ function App() {
                 May 12, 2028 — {location}, Chapel Brampton
               </p>
               <p className="mx-auto max-w-md text-sm font-light leading-relaxed text-walnut/75 lg:mx-0">
-                Surrounded by wild pine meadows, warm candlelight, and our
-                dearest loved ones. We invite you to share this sacred autumn
-                weekend with us.
+                Surrounded by wild pine meadows, warm candlelight, and our dearest loved ones. We
+                invite you to share this sacred autumn weekend with us.
               </p>
               <div className="flex flex-col items-center justify-center gap-4 pt-4 sm:flex-row lg:justify-start">
                 <a
@@ -160,25 +151,25 @@ function App() {
             </div>
             <div className="relative mt-2 h-170 w-full lg:col-span-7 md:mt-0 md:h-150 md:max-lg:h-170">
               <div className="absolute left-1/2 top-1/2 z-20 aspect-3/4 w-60 -translate-x-1/2 -translate-y-1/2 rotate-2 overflow-hidden rounded-lg bg-surface shadow-2xl transition-transform duration-500 ease-out hover:rotate-0 md:w-72 md:max-lg:w-52">
-<img
-  src={`${import.meta.env.BASE_URL}images/weddingPhoto.jpg`}
-  alt="Bride and Groom at a wedding"
-  className="block h-full w-full object-cover"
-/>
+                <img
+                  src={`${import.meta.env.BASE_URL}images/weddingPhoto.jpg`}
+                  alt="Bride and Groom at a wedding"
+                  className="block h-full w-full object-cover"
+                />
               </div>
               <div className="absolute left-0 top-0 z-10 aspect-3/4 w-40 -rotate-6 overflow-hidden rounded-lg bg-surface opacity-90 shadow-xl transition-transform duration-500 ease-out hover:rotate-0 md:-left-8 md:top-20 md:w-56 md:max-lg:left-0 md:max-lg:top-16 md:max-lg:w-36">
-<img
-  src={`${import.meta.env.BASE_URL}images/holidayPhoto.jpg`}
-  alt="Bride and Groom on holiday"
-  className="block h-full w-full object-cover"
-/>
+                <img
+                  src={`${import.meta.env.BASE_URL}images/holidayPhoto.jpg`}
+                  alt="Bride and Groom on holiday"
+                  className="block h-full w-full object-cover"
+                />
               </div>
               <div className="absolute right-0 bottom-4 z-30 aspect-3/4 w-40 -rotate-3 overflow-hidden rounded-lg bg-surface opacity-95 shadow-lg transition-transform duration-500 ease-out hover:rotate-0 md:-right-8 md:bottom-20 md:w-56 md:max-lg:right-0 md:max-lg:bottom-12 md:max-lg:w-36">
-<img
-  src={`${import.meta.env.BASE_URL}images/autumnPhoto.jpg`}
-  alt="Bride and Groom on an autumn photoshoot"
-  className="block h-full w-full object-cover"
-/>
+                <img
+                  src={`${import.meta.env.BASE_URL}images/autumnPhoto.jpg`}
+                  alt="Bride and Groom on an autumn photoshoot"
+                  className="block h-full w-full object-cover"
+                />
               </div>
             </div>
             {/* <div className="relative flex items-center justify-center lg:col-span-7">
@@ -242,26 +233,23 @@ function App() {
               </div>
               <div className="space-y-6 font-light leading-relaxed text-[#f4f0e6]/80 md:col-span-7">
                 <h3 className="font-serif text-2xl font-normal italic text-linen-50 sm:text-3xl">
-                  From coffee in the West Village to sunset vows under the
-                  pines.
+                  From coffee in the West Village to sunset vows under the pines.
                 </h3>
                 <p className="text-sm text-linen-300 sm:text-base">
-                  We met over a spilled cortado at a corner cafe seven Octobers
-                  ago. What was meant to be a brisk twenty-minute introduction
-                  evolved into six hours of uninterrupted conversation about
-                  indie cinema, road trips, and antique botanical prints.
+                  We met over a spilled cortado at a corner cafe seven Octobers ago. What was meant
+                  to be a brisk twenty-minute introduction evolved into six hours of uninterrupted
+                  conversation about indie cinema, road trips, and antique botanical prints.
                 </p>
                 <p className="text-sm text-linen-300 sm:text-base">
-                  Four apartments, dozens of weekend escapes into the Hudson
-                  River Valley, and one very energetic rescue pup named Cedar
-                  later, Kian proposed on a misty ridge overlooking the Catskill
-                  canopy. We cannot imagine beginning this next chapter anywhere
-                  else than amongst the pines with you.
+                  Four apartments, dozens of weekend escapes into the Hudson River Valley, and one
+                  very energetic rescue pup named Cedar later, Kian proposed on a misty ridge
+                  overlooking the Catskill canopy. We cannot imagine beginning this next chapter
+                  anywhere else than amongst the pines with you.
                 </p>
                 <div className="mt-6 border-l-2 border-[#d7c4a8] py-2 pl-5">
                   <p className="font-serif text-lg italic text-linen-50">
-                    “In all the world, there is no heart for me like yours. In
-                    all the world, there is no love for you like mine.”
+                    “In all the world, there is no heart for me like yours. In all the world, there
+                    is no love for you like mine.”
                   </p>
                   <span className="mt-2 block text-xs uppercase tracking-widest text-[#d7c4a8]/70">
                     — Maya Angelou
@@ -279,8 +267,7 @@ function App() {
             subtitle={`May 12, 2028 · ${location}`}
           />
           <p className="font-serif text-xl text-walnut sm:text-2xl text-center">
-            Please come back here at a later date to see the timeline for the
-            day!
+            Please come back here at a later date to see the timeline for the day!
           </p>
           {/* <div className="relative ml-4 space-y-12 border-l border-olive/30 sm:ml-32 md:ml-44">
             {schedule.map((event) => (
@@ -307,10 +294,7 @@ function App() {
           </div> */}
         </section>
 
-        <section
-          className="border-y border-[#ebdcc8] bg-linen-100/60 py-24"
-          id="venue"
-        >
+        <section className="border-y border-[#ebdcc8] bg-linen-100/60 py-24" id="venue">
           <div className="mx-auto max-w-7xl px-6">
             <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
               <div className="space-y-6 lg:col-span-6">
@@ -321,16 +305,15 @@ function App() {
                   {location}, <br /> Chapel Brampton
                 </h2>
                 <p className="text-sm font-light leading-relaxed text-walnut/80">
-                  Nestled at the base of the Shawangunk Ridge, the estate
-                  features over 120 acres of protected pine woods, a restored
-                  19th-century timber glasshouse, and panoramic mountain vistas.
+                  Nestled at the base of the Shawangunk Ridge, the estate features over 120 acres of
+                  protected pine woods, a restored 19th-century timber glasshouse, and panoramic
+                  mountain vistas.
                 </p>
                 <div className="space-y-2 pb-4 pt-2 text-xs text-walnut/80">
                   <p className="flex items-center gap-3 text-sm">
                     <span className="h-2 w-2 rounded-full bg-olive" />
                     <span>
-                      <strong>Address:</strong> Sandy Ln, Chapel Brampton,
-                      Northampton NN6 8AD
+                      <strong>Address:</strong> Sandy Ln, Chapel Brampton, Northampton NN6 8AD
                     </span>
                   </p>
                 </div>
@@ -339,9 +322,8 @@ function App() {
                     Dress Code: Autumn Earth Editorial
                   </h3>
                   <p className="text-xs font-light leading-relaxed text-walnut/70">
-                    Semi-formal / formal garden attire. We encourage warm,
-                    nature-inspired hues: muted forest greens, warm sepia,
-                    toasted walnut, oat, clay, and taupe.
+                    Semi-formal / formal garden attire. We encourage warm, nature-inspired hues:
+                    muted forest greens, warm sepia, toasted walnut, oat, clay, and taupe.
                   </p>
                   <div className="flex flex-wrap items-center gap-4 pt-1">
                     {[
@@ -365,7 +347,7 @@ function App() {
                 </div>
                 <a
                   className="inline-flex items-center pt-2 text-xs font-semibold uppercase tracking-widest text-olive hover:underline"
-                  href="https://maps.app.goo.gl/nvx6dCxhzrNii6yQA"
+                  href="https://www.google.com/maps/search/?api=1&query=Brampton+Grange+Wedding+Venue+%26+Conference+Centre"
                   rel="noreferrer"
                   target="_blank"
                 >
@@ -384,9 +366,7 @@ function App() {
                   <span className="block text-[10px] uppercase tracking-[0.25em] text-walnut/60">
                     Chapel Brampton
                   </span>
-                  <span className="font-serif font-medium text-walnut">
-                    {location}
-                  </span>
+                  <span className="font-serif font-medium text-walnut">{location}</span>
                 </div>
               </div>
             </div>
@@ -471,9 +451,7 @@ function App() {
                         type="radio"
                         value="attending"
                       />
-                      <span className="ml-3 text-sm font-medium text-walnut">
-                        Joyfully Accepts
-                      </span>
+                      <span className="ml-3 text-sm font-medium text-walnut">Joyfully Accepts</span>
                     </label>
                     <label className="flex cursor-pointer items-center rounded border border-[#e4d7c5] bg-[#fbf9f4] p-4 transition hover:border-olive/50 hover:bg-linen-100">
                       <input
@@ -516,8 +494,8 @@ function App() {
                     className="rounded-sm border border-olive bg-olive/20 p-4 text-center text-sm text-walnut-dark"
                     role="status"
                   >
-                    Thank you! Your RSVP has been graciously received. We look
-                    forward to celebrating together.
+                    Thank you! Your RSVP has been graciously received. We look forward to
+                    celebrating together.
                   </p>
                 )}
               </form>
@@ -529,21 +507,16 @@ function App() {
       <footer className="border-t border-walnut/60 bg-walnut-dark py-16 text-linen-100">
         <div className="mx-auto max-w-5xl space-y-8 px-6 text-center">
           <div className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-linen-300/30">
-            <span className="font-serif text-xl uppercase tracking-widest">
-              K&I
-            </span>
+            <span className="font-serif text-xl uppercase tracking-widest">K&I</span>
           </div>
           <div className="space-y-2">
-            <p className="font-serif text-2xl font-light uppercase tracking-widest">
-              Kian & Izzy
-            </p>
+            <p className="font-serif text-2xl font-light uppercase tracking-widest">Kian & Izzy</p>
             <p className="text-xs font-light uppercase tracking-[0.25em] text-linen-300/60">
               12 . 05 . 2028 · {location}
             </p>
           </div>
           <p className="mx-auto max-w-md font-script text-2xl text-linen-200/80">
-            “We cannot wait to celebrate our favorite day with our favorite
-            people.”
+            “We cannot wait to celebrate our favorite day with our favorite people.”
           </p>
         </div>
       </footer>
