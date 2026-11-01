@@ -381,7 +381,7 @@ function App() {
             <SectionHeading
               eyebrow="Kindly Respond"
               title="RSVP"
-              subtitle="Please let us know your plans by January 31, 2028."
+              subtitle="Please let us know your plans by December 31, 2027."
             />
             <div className="rounded-sm border border-[#e4d7c5] bg-white p-8 shadow-xl sm:p-12">
               <form className="space-y-8" onSubmit={handleSubmit}>
@@ -390,35 +390,35 @@ function App() {
                     className="block text-xs font-medium uppercase tracking-widest text-walnut"
                     htmlFor="guest-names"
                   >
-                    Full Name(s) of Household Guests
+                    Guest name
                   </label>
                   <input
                     className="w-full rounded-none border border-[#d7c4a8] bg-[#fbf9f4] px-4 py-3 text-sm text-walnut outline-none transition placeholder:text-walnut/40 focus:border-olive focus:ring-1 focus:ring-olive"
                     id="guest-names"
                     name="names"
-                    placeholder="e.g. Katherine & Julian Vance"
+                    placeholder="e.g. Peter Parker"
                     required
                     type="text"
                   />
                 </div>
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <label
-                      className="block text-xs font-medium uppercase tracking-widest text-walnut"
-                      htmlFor="guest-email"
-                    >
-                      Email Address
-                    </label>
-                    <input
-                      className="w-full rounded-none border border-[#d7c4a8] bg-[#fbf9f4] px-4 py-3 text-sm text-walnut outline-none transition placeholder:text-walnut/40 focus:border-olive focus:ring-1 focus:ring-olive"
-                      id="guest-email"
-                      name="email"
-                      placeholder="name@domain.com"
-                      required
-                      type="email"
-                    />
-                  </div>
-                  <div className="space-y-2">
+
+                <div className="space-y-2">
+                  <label
+                    className="block text-xs font-medium uppercase tracking-widest text-walnut"
+                    htmlFor="guest-email"
+                  >
+                    Email Address
+                  </label>
+                  <input
+                    className="w-full rounded-none border border-[#d7c4a8] bg-[#fbf9f4] px-4 py-3 text-sm text-walnut outline-none transition placeholder:text-walnut/40 focus:border-olive focus:ring-1 focus:ring-olive"
+                    id="guest-email"
+                    name="email"
+                    placeholder="peter-parker@dailybugal.com"
+                    required
+                    type="email"
+                  />
+                </div>
+                {/* <div className="space-y-2">
                     <label
                       className="block text-xs font-medium uppercase tracking-widest text-walnut"
                       htmlFor="party-count"
@@ -436,8 +436,7 @@ function App() {
                       <option value="3">3 Guests</option>
                       <option value="4">4 Guests</option>
                     </select>
-                  </div>
-                </div>
+                  </div> */}
                 <fieldset className="space-y-3">
                   <legend className="block text-xs font-medium uppercase tracking-widest text-walnut">
                     Attendance
@@ -481,12 +480,18 @@ function App() {
                     rows={3}
                   />
                 </div>
-                <div className="pt-2 text-center">
+                <div className="pt-2 text-center grid grid-row-2 gap-4 md:grid-cols-2">
                   <button
                     className="w-full min-w-60 rounded-full bg-olive px-10 py-4 text-xs font-semibold uppercase tracking-[0.25em] text-linen-100 shadow-md transition duration-200 hover:bg-olive-dark hover:shadow-lg sm:w-auto"
                     type="submit"
                   >
                     Send RSVP
+                  </button>
+                  <button
+                    className="w-full min-w-60 rounded-full bg-white px-10 py-4 text-xs font-semibold uppercase tracking-[0.25em] text-olive border-olive border-2 shadow-md transition duration-200 hover:bg-olive hover:text-linen-100 hover:shadow-lg sm:w-auto"
+                    type="submit"
+                  >
+                    Add another guest
                   </button>
                 </div>
                 {submitted && (
