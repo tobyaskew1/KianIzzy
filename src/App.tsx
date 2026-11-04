@@ -95,7 +95,6 @@ function App() {
   const [submitted, setSubmitted] = useState(false);
   const [input, setInput] = useState<string>("");
   const [guestList, setGuestList] = useState<string[]>([]);
-  const [guestCount, setGuestCount] = useState<number>(0);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -439,22 +438,21 @@ function App() {
                     onChange={(e) => setInput(e.target.value)}
                   />
                 </div>
-                <div className={`flex-row ${guestCount === 0 ? "hidden" : "flex"}`}>
+                <div className={`flex-row flex-wrap ${guestList.length === 0 ? "hidden" : "flex"}`}>
                   {guestList.map((guest, index) => (
                     <div
                       key={index}
                       className="m-1 flex flex-row  justify-center items-center rounded-full border border-[#d7c4a8] bg-[#fbf9f4]"
                     >
                       <p className="m-0 flex items-center px-4 py-1">{guest}</p>
-                      <span
+                      <button
                         className="cursor-pointer m-0 border-l border-[#d7c4a8] material-symbols-outlined px-2 hover:text-red-600"
                         onClick={() => {
                           setGuestList(guestList.filter((_, i) => i !== index));
-                          setGuestCount(guestCount - 1);
                         }}
                       >
                         delete
-                      </span>
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -499,13 +497,11 @@ function App() {
                   </button>
                   <button
                     className="w-full min-w-60 rounded-full bg-white px-10 py-4 text-xs font-semibold uppercase tracking-[0.25em] text-olive border-olive border-2 shadow-md transition duration-200 hover:bg-olive hover:text-linen-100 hover:shadow-lg sm:w-auto"
-                    type="submit"
                     onClick={() => {
                       if (input.trim() !== "") {
                         setGuestList([...guestList, input]);
                         setInput("");
                       }
-                      setGuestCount(guestCount + 1);
                     }}
                   >
                     Add another guest
