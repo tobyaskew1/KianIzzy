@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { supabase } from "./lib/supabaseClient";
 
 const coupleImage =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuAVeuWnHKqXBPpzH_ldnWXTruk3G6odNzN7jNAeZSwzaGZHKnH-BSN4B9l2pbZFSW2yuVcwQ2FW2ZuepLacrlVk6frmjh1ZzqHrIaC6bUCbbmf_cV9c1qCcFBJ8-j4SjlED4O9U9jKK1r7J_SBHntPKzF86Cua4q1FNs1s40mbPWkX5LydYvnKVShN3EpbagDRWlX5VSuS9I9p58BGnSndxMMpA2nSc76eIvX0m_TeCf25Qv0xo1cDKKpRLaT0gCPrVYj4";
@@ -41,6 +42,8 @@ const coupleImage =
 //   },
 // ];
 
+// const testGuests = ["Peter Parker", "Mary-Jane Watson", "Miles Morales"];
+
 const location = "Brampton Grange";
 
 // const stays = [
@@ -48,6 +51,17 @@ const location = "Brampton Grange";
 //   { label: 'Modern Riverside', name: 'Inness Hotel & Grounds', location: 'Accord, NY · 12 mins from venue', description: 'Scandinavian-inspired pastoral cabins set across rolling meadows with hiking paths, sauna spa, and panoramic ridge sunsets.', code: 'WOODLAND28', action: 'Reserve Cabin' },
 //   { label: 'Shuttle Transportation', name: 'Charter Schedule', location: 'Roundtrip transfers provided', description: 'Executive shuttles will run continuously between Hasbrouck House, Inness, and the Estate from 2:15 PM until 1:00 AM.', code: 'No personal driving needed', action: 'Schedule in welcome bag' },
 // ]
+
+const testSupabaseConnection = async () => {
+  const { error } = await supabase.from("rsvps").select("id").limit(1);
+
+  if (error) {
+    console.error("Supabase conenction failed: ", error);
+    return;
+  }
+
+  console.log("Supabase conenction successful!");
+};
 
 function SectionHeading({
   eyebrow,
@@ -79,11 +93,32 @@ function SectionHeading({
 
 function App() {
   const [submitted, setSubmitted] = useState(false);
+  const [input, setInput] = useState<string>("");
+  const [guestList, setGuestList] = useState<string[]>([]);
+  const [guestCount, setGuestCount] = useState<number>(0);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitted(true);
   }
+
+  // const [guestNames, setGuestNames] = useState([""]);
+
+  // const addGuest = () => {
+  //   if (guestNames.length >= 4) return;
+
+  //   setGuestNames([...guestNames, ""]);
+  // };
+
+  // const removeGuest = (indexToRemove: number) => {
+  //   setGuestNames(testGuests.filter((_, index) => index !== indexToRemove));
+  // };
+
+  // const updateGuestName = (indexToUpdate: number, name: string) => {
+  //   setGuestNames(
+  //     guestNames.map((guestName, index) => (index === indexToUpdate ? name : guestName)),
+  //   );
+  // };
 
   return (
     <div className="min-h-screen overflow-hidden font-sans text-walnut-dark antialiased selection:bg-olive selection:text-linen-50">
@@ -110,6 +145,7 @@ function App() {
           <a
             className="rounded-full bg-olive px-6 py-2.5 text-xs uppercase tracking-[0.18em] text-linen-100 shadow-sm transition hover:bg-olive-dark hover:shadow"
             href="#rsvp"
+            onClick={testSupabaseConnection}
           >
             RSVP
           </a>
@@ -396,10 +432,31 @@ function App() {
                     className="w-full rounded-none border border-[#d7c4a8] bg-[#fbf9f4] px-4 py-3 text-sm text-walnut outline-none transition placeholder:text-walnut/40 focus:border-olive focus:ring-1 focus:ring-olive"
                     id="guest-names"
                     name="names"
-                    placeholder="e.g. Peter Parker"
                     required
+                    placeholder="e.g. Peter Parker"
                     type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
                   />
+                </div>
+                <div className={`flex-row ${guestCount === 0 ? "hidden" : "flex"}`}>
+                  {guestList.map((guest, index) => (
+                    <div
+                      key={index}
+                      className="m-1 flex flex-row  justify-center items-center rounded-full border border-[#d7c4a8] bg-[#fbf9f4]"
+                    >
+                      <p className="m-0 flex items-center px-4 py-1">{guest}</p>
+                      <span
+                        className="cursor-pointer m-0 border-l border-[#d7c4a8] material-symbols-outlined px-2 hover:text-red-600"
+                        onClick={() => {
+                          setGuestList(guestList.filter((_, i) => i !== index));
+                          setGuestCount(guestCount - 1);
+                        }}
+                      >
+                        delete
+                      </span>
+                    </div>
+                  ))}
                 </div>
 
                 <div className="space-y-2">
@@ -418,53 +475,6 @@ function App() {
                     type="email"
                   />
                 </div>
-                {/* <div className="space-y-2">
-                    <label
-                      className="block text-xs font-medium uppercase tracking-widest text-walnut"
-                      htmlFor="party-count"
-                    >
-                      Number of Attendees
-                    </label>
-                    <select
-                      className="w-full rounded-none border border-[#d7c4a8] bg-[#fbf9f4] px-4 py-3 text-sm text-walnut outline-none transition focus:border-olive focus:ring-1 focus:ring-olive"
-                      defaultValue="2"
-                      id="party-count"
-                      name="attendees"
-                    >
-                      <option value="1">1 Guest</option>
-                      <option value="2">2 Guests</option>
-                      <option value="3">3 Guests</option>
-                      <option value="4">4 Guests</option>
-                    </select>
-                  </div> */}
-                <fieldset className="space-y-3">
-                  <legend className="block text-xs font-medium uppercase tracking-widest text-walnut">
-                    Attendance
-                  </legend>
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <label className="flex cursor-pointer items-center rounded border border-[#e4d7c5] bg-[#fbf9f4] p-4 transition hover:border-olive/50 hover:bg-linen-100">
-                      <input
-                        className="border-[#d7c4a8] bg-white text-olive focus:ring-olive"
-                        defaultChecked
-                        name="attendance"
-                        type="radio"
-                        value="attending"
-                      />
-                      <span className="ml-3 text-sm font-medium text-walnut">Joyfully Accepts</span>
-                    </label>
-                    <label className="flex cursor-pointer items-center rounded border border-[#e4d7c5] bg-[#fbf9f4] p-4 transition hover:border-olive/50 hover:bg-linen-100">
-                      <input
-                        className="border-[#d7c4a8] bg-white text-olive focus:ring-olive"
-                        name="attendance"
-                        type="radio"
-                        value="declining"
-                      />
-                      <span className="ml-3 text-sm font-medium text-walnut">
-                        Regretfully Declines
-                      </span>
-                    </label>
-                  </div>
-                </fieldset>
                 <div className="space-y-2">
                   <label
                     className="block text-xs font-medium uppercase tracking-widest text-walnut"
@@ -476,7 +486,7 @@ function App() {
                     className="w-full rounded-none border border-[#d7c4a8] bg-[#fbf9f4] px-4 py-3 text-sm text-walnut outline-none transition placeholder:text-walnut/40 focus:border-olive focus:ring-1 focus:ring-olive"
                     id="dietary-notes"
                     name="notes"
-                    placeholder="Vegetarian, vegan, gluten-free, allergies, or songs to hear on the dance floor..."
+                    placeholder="Vegetarian, vegan, gluten-free, allergies, or a message for Kian & Izzy"
                     rows={3}
                   />
                 </div>
@@ -490,6 +500,13 @@ function App() {
                   <button
                     className="w-full min-w-60 rounded-full bg-white px-10 py-4 text-xs font-semibold uppercase tracking-[0.25em] text-olive border-olive border-2 shadow-md transition duration-200 hover:bg-olive hover:text-linen-100 hover:shadow-lg sm:w-auto"
                     type="submit"
+                    onClick={() => {
+                      if (input.trim() !== "") {
+                        setGuestList([...guestList, input]);
+                        setInput("");
+                      }
+                      setGuestCount(guestCount + 1);
+                    }}
                   >
                     Add another guest
                   </button>
