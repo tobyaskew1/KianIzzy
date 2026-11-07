@@ -1,5 +1,4 @@
-import { useState, type FormEvent } from "react";
-import { supabase } from "./lib/supabaseClient";
+import { useState, type FormEvent, useRef } from "react";
 
 const coupleImage =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuAVeuWnHKqXBPpzH_ldnWXTruk3G6odNzN7jNAeZSwzaGZHKnH-BSN4B9l2pbZFSW2yuVcwQ2FW2ZuepLacrlVk6frmjh1ZzqHrIaC6bUCbbmf_cV9c1qCcFBJ8-j4SjlED4O9U9jKK1r7J_SBHntPKzF86Cua4q1FNs1s40mbPWkX5LydYvnKVShN3EpbagDRWlX5VSuS9I9p58BGnSndxMMpA2nSc76eIvX0m_TeCf25Qv0xo1cDKKpRLaT0gCPrVYj4";
@@ -42,26 +41,7 @@ const coupleImage =
 //   },
 // ];
 
-// const testGuests = ["Peter Parker", "Mary-Jane Watson", "Miles Morales"];
-
 const location = "Brampton Grange";
-
-// const stays = [
-//   { label: 'Primary Room Block', name: 'Hasbrouck House', location: 'Stone Ridge, NY · 8 mins from venue', description: '18th-century Dutch colonial stone mansion with twenty-five bespoke boutique suites, bluestone pool, and tavern.', code: 'ALEXJAMIE28', action: 'Reserve Room' },
-//   { label: 'Modern Riverside', name: 'Inness Hotel & Grounds', location: 'Accord, NY · 12 mins from venue', description: 'Scandinavian-inspired pastoral cabins set across rolling meadows with hiking paths, sauna spa, and panoramic ridge sunsets.', code: 'WOODLAND28', action: 'Reserve Cabin' },
-//   { label: 'Shuttle Transportation', name: 'Charter Schedule', location: 'Roundtrip transfers provided', description: 'Executive shuttles will run continuously between Hasbrouck House, Inness, and the Estate from 2:15 PM until 1:00 AM.', code: 'No personal driving needed', action: 'Schedule in welcome bag' },
-// ]
-
-const testSupabaseConnection = async () => {
-  const { error } = await supabase.from("rsvps").select("id").limit(1);
-
-  if (error) {
-    console.error("Supabase conenction failed: ", error);
-    return;
-  }
-
-  console.log("Supabase conenction successful!");
-};
 
 function SectionHeading({
   eyebrow,
@@ -93,44 +73,60 @@ function SectionHeading({
 
 function App() {
   const [submitted, setSubmitted] = useState(false);
+  const [errorVisibility, setErrorVisibility] = useState(false);
   const [input, setInput] = useState<string>("");
   const [guestList, setGuestList] = useState<string[]>([]);
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setSubmitted(true);
+    if (guestList.length !== 0) {
+      console.log("True");
+      event.preventDefault();
+      setSubmitted(true);
+    } else if (guestList.length === 0 || input === "") {
+      console.log("False");
+      setErrorVisibility(true);
+      setErrorMsg("Please enter a guest name before submitting");
+    }
   }
 
-  // const [guestNames, setGuestNames] = useState([""]);
+  function AddGuestList() {
+    if (input.trim() !== "") {
+      setGuestList([...guestList, input]);
+      setInput("");
+      setErrorVisibility(false);
+    } else if (guestList.length === 0 || input === "") {
+      console.log("False");
+      setErrorVisibility(true);
+      setErrorMsg("Please enter a guest name before submitting");
+    }
+  }
 
-  // const addGuest = () => {
-  //   if (guestNames.length >= 4) return;
-
-  //   setGuestNames([...guestNames, ""]);
-  // };
-
-  // const removeGuest = (indexToRemove: number) => {
-  //   setGuestNames(testGuests.filter((_, index) => index !== indexToRemove));
-  // };
-
-  // const updateGuestName = (indexToUpdate: number, name: string) => {
-  //   setGuestNames(
-  //     guestNames.map((guestName, index) => (index === indexToUpdate ? name : guestName)),
-  //   );
-  // };
+  function resetForm() {
+    setGuestList([]);
+    formRef.current?.reset();
+    setInput("");
+    setSubmitted(false);
+  }
 
   return (
     <div className="min-h-screen overflow-hidden font-sans text-walnut-dark antialiased selection:bg-olive selection:text-linen-50">
       <header className="sticky top-0 z-50 border-b border-[#ebdcc8]/70 bg-[#fbf8f2]/90 backdrop-blur-md">
         <div className="relative mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-          <a className="group flex items-center" href="#top" aria-label="Kian and Izzy home">
+          <a
+            className="group flex items-center mx-auto md:mx-0"
+            href="#top"
+            aria-label="Kian and Izzy home"
+          >
             <span className="font-serif text-xl font-medium uppercase tracking-[0.18em] text-walnut transition-colors group-hover:text-olive sm:text-2xl">
               Kian{" "}
               <span className="font-script text-3xl lowercase tracking-normal text-olive">&</span>{" "}
               Izzy
             </span>
           </a>
-          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-5 text-xs font-medium uppercase tracking-[0.18em] text-walnut/80 md:flex lg:gap-10">
+          <nav className="hidden items-center gap-5 text-xs font-medium uppercase tracking-[0.18em] text-walnut/80 md:flex lg:gap-10">
             <a className="transition-colors hover:text-olive" href="#story">
               Our story
             </a>
@@ -142,9 +138,8 @@ function App() {
             </a>
           </nav>
           <a
-            className="rounded-full bg-olive px-6 py-2.5 text-xs uppercase tracking-[0.18em] text-linen-100 shadow-sm transition hover:bg-olive-dark hover:shadow"
+            className="hidden md:flex rounded-full bg-olive px-6 py-2.5 text-xs uppercase tracking-[0.18em] text-linen-100 shadow-sm transition hover:bg-olive-dark hover:shadow"
             href="#rsvp"
-            onClick={testSupabaseConnection}
           >
             RSVP
           </a>
@@ -176,12 +171,6 @@ function App() {
                 >
                   Confirm Attendance
                 </a>
-                <a
-                  className="w-full rounded-full border border-walnut/30 px-8 py-3.5 text-center text-xs uppercase tracking-[0.18em] text-walnut transition hover:border-walnut sm:w-auto"
-                  href="#story"
-                >
-                  Explore Weekend
-                </a>
               </div>
             </div>
             <div className="relative mt-2 h-170 w-full lg:col-span-7 md:mt-0 md:h-150 md:max-lg:h-170">
@@ -192,14 +181,14 @@ function App() {
                   className="block h-full w-full object-cover"
                 />
               </div>
-              <div className="absolute left-0 top-0 z-10 aspect-3/4 w-40 -rotate-6 overflow-hidden rounded-lg bg-surface opacity-90 shadow-xl transition-transform duration-500 ease-out hover:rotate-0 md:-left-8 md:top-20 md:w-56 md:max-lg:left-0 md:max-lg:top-16 md:max-lg:w-36">
+              <div className="absolute left-0 top-0 z-10 aspect-3/4 w-40 -rotate-6 overflow-hidden rounded-lg bg-surface opacity-90 shadow-xl transition-transform duration-500 ease-out hover:rotate-0 md:-left-8 md:top-20 md:w-56 md:max-lg:left-[12%] md:max-lg:top-16 md:max-lg:w-36">
                 <img
                   src={`${import.meta.env.BASE_URL}images/holidayPhoto.jpg`}
                   alt="Bride and Groom on holiday"
                   className="block h-full w-full object-cover"
                 />
               </div>
-              <div className="absolute right-0 bottom-4 z-30 aspect-3/4 w-40 -rotate-3 overflow-hidden rounded-lg bg-surface opacity-95 shadow-lg transition-transform duration-500 ease-out hover:rotate-0 md:-right-8 md:bottom-20 md:w-56 md:max-lg:right-0 md:max-lg:bottom-12 md:max-lg:w-36">
+              <div className="absolute right-0 bottom-4 z-30 aspect-3/4 w-40 -rotate-3 overflow-hidden rounded-lg bg-surface opacity-95 shadow-lg transition-transform duration-500 ease-out hover:rotate-0 md:-right-8 md:bottom-20 md:w-56 md:max-lg:right-[12%] md:max-lg:bottom-12 md:max-lg:w-36">
                 <img
                   src={`${import.meta.env.BASE_URL}images/autumnPhoto.jpg`}
                   alt="Bride and Groom on an autumn photoshoot"
@@ -207,38 +196,6 @@ function App() {
                 />
               </div>
             </div>
-            {/* <div className="relative flex items-center justify-center lg:col-span-7">
-              <div className="arch-mask relative h-110 w-72 border-4 border-white bg-linen-200 shadow-2xl sm:h-125 sm:w-80 md:w-96">
-                <img
-                  alt="Kian and Izzy embracing in a meadow"
-                  className="h-full w-full object-cover object-top contrast-[1.03]"
-                  src={coupleImage}
-                />
-              </div>
-              <div className="polaroid-card absolute -bottom-6 -left-2 z-20 hidden w-44 -rotate-6 sm:left-4 sm:block sm:w-56">
-                <div className="aspect-square overflow-hidden bg-linen-200">
-                  <img
-                    alt="Autumn bouquet details"
-                    className="h-full w-full object-cover object-center sepia-[0.15]"
-                    src={coupleImage}
-                  />
-                </div>
-                <p className="mt-3 text-center font-script text-lg leading-tight text-walnut">
-                  {location},<br /> May 2028
-                </p>
-              </div>
-              <div className="absolute -top-4 right-2 z-10 max-w-42.5 rotate-3 rounded-sm border border-[#ddccb4] bg-linen-100 p-4 text-center shadow-lg sm:right-6">
-                <span className="block text-[10px] font-medium uppercase tracking-[0.2em] text-sage">
-                  Gathering At
-                </span>
-                <span className="font-serif text-sm font-medium text-walnut">
-                  {location}
-                </span>
-                <span className="mt-1 block text-[11px] text-walnut/60">
-                  13:20
-                </span>
-              </div>
-            </div> */}
           </div>
         </section>
 
@@ -344,7 +301,7 @@ function App() {
                   protected pine woods, a restored 19th-century timber glasshouse, and panoramic
                   mountain vistas.
                 </p>
-                <div className="space-y-2 pb-4 pt-2 text-xs text-walnut/80">
+                <div className="space-y-2 pb-4 pt-2 text-sm text-walnut/80">
                   <p className="flex items-center gap-3 text-sm">
                     <span className="h-2 w-2 rounded-full bg-olive" />
                     <span>
@@ -356,7 +313,7 @@ function App() {
                   <h3 className="font-serif text-lg font-medium text-walnut">
                     Dress Code: Autumn Earth Editorial
                   </h3>
-                  <p className="text-xs font-light leading-relaxed text-walnut/70">
+                  <p className="text-sm font-light leading-relaxed text-walnut/70">
                     Semi-formal / formal garden attire. We encourage warm, nature-inspired hues:
                     muted forest greens, warm sepia, toasted walnut, oat, clay, and taupe.
                   </p>
@@ -419,102 +376,97 @@ function App() {
               subtitle="Please let us know your plans by December 31, 2027."
             />
             <div className="rounded-sm border border-[#e4d7c5] bg-white p-8 shadow-xl sm:p-12">
-              <form className="space-y-8" onSubmit={handleSubmit}>
-                <div className="space-y-2">
-                  <label
-                    className="block text-xs font-medium uppercase tracking-widest text-walnut"
-                    htmlFor="guest-names"
-                  >
-                    Guest name
-                  </label>
-                  <input
-                    className="w-full rounded-none border border-[#d7c4a8] bg-[#fbf9f4] px-4 py-3 text-sm text-walnut outline-none transition placeholder:text-walnut/40 focus:border-olive focus:ring-1 focus:ring-olive"
-                    id="guest-names"
-                    name="names"
-                    required
-                    placeholder="e.g. Peter Parker"
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                  />
-                </div>
-                <div className={`flex-row flex-wrap ${guestList.length === 0 ? "hidden" : "flex"}`}>
-                  {guestList.map((guest, index) => (
-                    <div
-                      key={index}
-                      className="m-1 flex flex-row  justify-center items-center rounded-full border border-[#d7c4a8] bg-[#fbf9f4]"
-                    >
-                      <p className="m-0 flex items-center px-4 py-1">{guest}</p>
-                      <button
-                        className="cursor-pointer m-0 border-l border-[#d7c4a8] material-symbols-outlined px-2 hover:text-red-600"
-                        onClick={() => {
-                          setGuestList(guestList.filter((_, i) => i !== index));
-                        }}
+              <p className={`text-center text-red-600 ${errorVisibility !== true ? "hidden" : ""}`}>
+                {errorMsg}
+              </p>
+              <form ref={formRef} className="space-y-8" onSubmit={handleSubmit}>
+                {submitted !== true ? (
+                  <>
+                    <div className="my-5">
+                      <label
+                        className="block text-sm font-medium uppercase tracking-widest text-walnut mb-2"
+                        htmlFor="guest-names"
                       >
-                        delete
+                        Guest name
+                      </label>
+                      <input
+                        className={`w-full rounded-none border bg-[#fbf9f4] px-4 py-3 text-sm text-walnut outline-none transition placeholder:text-walnut/40 focus:border-olive focus:ring-1 focus:ring-olive ${errorVisibility ? "border-red-600" : "border-[#d7c4a8]"}`}
+                        id="guest-names"
+                        name="names"
+                        placeholder="Peter Parker"
+                        type="text"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                      />
+                      <div
+                        className={`w-full flex-row flex-wrap gap-2 p-0 mt-3 ${guestList.length === 0 ? "hidden" : "flex"}`}
+                      >
+                        {guestList.map((guest, index) => (
+                          <div
+                            key={index}
+                            className="m-1 flex flex-row  justify-center items-center rounded-full border border-[#d7c4a8] bg-[#fbf9f4]"
+                          >
+                            <p className="m-0 flex text-xs md:text-sm items-center px-3 py-2">
+                              {guest}
+                            </p>
+                            <button
+                              className="cursor-pointer m-0 border-l border-[#d7c4a8] material-symbols-outlined px-2 hover:text-red-600"
+                              onClick={() => {
+                                setGuestList(guestList.filter((_, i) => i !== index));
+                              }}
+                            >
+                              delete
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="my-5">
+                      <label
+                        className="block text-sm font-medium uppercase tracking-widest text-walnut mb-2"
+                        htmlFor="dietary-notes"
+                      >
+                        Dietary Requirements & Notes
+                      </label>
+                      <textarea
+                        className="w-full rounded-none border border-[#d7c4a8] bg-[#fbf9f4] px-4 py-3 text-sm text-walnut outline-none transition placeholder:text-walnut/40 focus:border-olive focus:ring-1 focus:ring-olive"
+                        id="dietary-notes"
+                        name="notes"
+                        placeholder="Vegetarian, vegan, gluten-free, allergies, or a message for Kian & Izzy"
+                        rows={3}
+                      />
+                    </div>
+                    <div className="pt-2 text-center grid grid-row-2 gap-4 md:grid-cols-2">
+                      <button
+                        className="w-full min-w-60 rounded-full bg-olive px-10 py-4 text-xs font-semibold uppercase tracking-[0.25em] text-linen-100 shadow-md transition duration-200 hover:bg-olive-dark hover:shadow-lg sm:w-auto"
+                        type="submit"
+                      >
+                        Send RSVP
+                      </button>
+                      <button
+                        className="w-full min-w-60 rounded-full bg-white px-10 py-4 text-xs font-semibold uppercase tracking-[0.25em] text-olive border-olive border-2 shadow-md transition duration-200 hover:bg-olive hover:text-linen-100 hover:shadow-lg sm:w-auto"
+                        onClick={() => AddGuestList()}
+                        type="button"
+                      >
+                        Add another guest
                       </button>
                     </div>
-                  ))}
-                </div>
-
-                <div className="space-y-2">
-                  <label
-                    className="block text-xs font-medium uppercase tracking-widest text-walnut"
-                    htmlFor="guest-email"
-                  >
-                    Email Address
-                  </label>
-                  <input
-                    className="w-full rounded-none border border-[#d7c4a8] bg-[#fbf9f4] px-4 py-3 text-sm text-walnut outline-none transition placeholder:text-walnut/40 focus:border-olive focus:ring-1 focus:ring-olive"
-                    id="guest-email"
-                    name="email"
-                    placeholder="peter-parker@dailybugal.com"
-                    required
-                    type="email"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label
-                    className="block text-xs font-medium uppercase tracking-widest text-walnut"
-                    htmlFor="dietary-notes"
-                  >
-                    Dietary Requirements & Notes
-                  </label>
-                  <textarea
-                    className="w-full rounded-none border border-[#d7c4a8] bg-[#fbf9f4] px-4 py-3 text-sm text-walnut outline-none transition placeholder:text-walnut/40 focus:border-olive focus:ring-1 focus:ring-olive"
-                    id="dietary-notes"
-                    name="notes"
-                    placeholder="Vegetarian, vegan, gluten-free, allergies, or a message for Kian & Izzy"
-                    rows={3}
-                  />
-                </div>
-                <div className="pt-2 text-center grid grid-row-2 gap-4 md:grid-cols-2">
-                  <button
-                    className="w-full min-w-60 rounded-full bg-olive px-10 py-4 text-xs font-semibold uppercase tracking-[0.25em] text-linen-100 shadow-md transition duration-200 hover:bg-olive-dark hover:shadow-lg sm:w-auto"
-                    type="submit"
-                  >
-                    Send RSVP
-                  </button>
-                  <button
-                    className="w-full min-w-60 rounded-full bg-white px-10 py-4 text-xs font-semibold uppercase tracking-[0.25em] text-olive border-olive border-2 shadow-md transition duration-200 hover:bg-olive hover:text-linen-100 hover:shadow-lg sm:w-auto"
-                    onClick={() => {
-                      if (input.trim() !== "") {
-                        setGuestList([...guestList, input]);
-                        setInput("");
-                      }
-                    }}
-                  >
-                    Add another guest
-                  </button>
-                </div>
-                {submitted && (
-                  <p
-                    className="rounded-sm border border-olive bg-olive/20 p-4 text-center text-sm text-walnut-dark"
-                    role="status"
-                  >
-                    Thank you! Your RSVP has been graciously received. We look forward to
-                    celebrating together.
-                  </p>
+                  </>
+                ) : (
+                  <div className="text-center flex flex-col gap-2 justify-center items-center">
+                    <h3 className="font-serif text-lg font-medium text-walnut">Thank you!</h3>
+                    <p className="text-sm font-light leading-relaxed text-walnut/70">
+                      Your RSVP has been graciously received. We look forward to celebrating
+                      together.
+                    </p>
+                    <button
+                      className="mt-5 w-full md:max-w-1/2 rounded-full bg-white px-4 py-3 text-xs font-semibold uppercase tracking-[0.15em] text-olive border-olive border-2 shadow-md transition duration-200 hover:bg-olive hover:text-linen-100 hover:shadow-lg sm:w-auto"
+                      onClick={() => resetForm()}
+                      type="button"
+                    >
+                      Make another submission
+                    </button>
+                  </div>
                 )}
               </form>
             </div>
